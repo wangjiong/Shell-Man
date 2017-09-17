@@ -8,7 +8,6 @@ public class Shell : MonoBehaviour {
     Canvas canvas;
     void Start() {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        Invoke("Boom", 2f);
     }
 
     public void Boom() {

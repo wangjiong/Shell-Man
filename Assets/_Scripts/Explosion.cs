@@ -4,39 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Explosion : MonoBehaviour {
+	public static int DIRECTION_LEFT = 1;
+	public static int DIRECTION_RIGHT = 2;
+	public static int DIRECTION_UP = 3;
+	public static int DIRECTION_DOWN = 4;
+
     public Image Left;
     public Image Right;
     public Image Up;
     public Image Down;
 
-    RectTransform rectTransformLeft;
-    RectTransform rectTransformRight;
-    RectTransform rectTransformUp;
-    RectTransform rectTransformDown;
+	ExplosionDirection explosionDirectionLeft;
+	ExplosionDirection explosionDirectionRight;
+	ExplosionDirection explosionDirectionUp;
+	ExplosionDirection explosionDirectionDown;
 
-    float speed = 0.3f;
     void Start() {
-        rectTransformLeft = Left.GetComponent<RectTransform>();
-        rectTransformRight = Right.GetComponent<RectTransform>();
-        rectTransformUp = Up.GetComponent<RectTransform>();
-        rectTransformDown = Down.GetComponent<RectTransform>();
-        Boom();
-    }
+		explosionDirectionLeft = Left.GetComponent<ExplosionDirection>();
+		explosionDirectionRight = Right.GetComponent<ExplosionDirection>();
+		explosionDirectionUp = Up.GetComponent<ExplosionDirection>();
+		explosionDirectionDown = Down.GetComponent<ExplosionDirection>();
 
-    public void Boom() {
-        StartCoroutine("Anim");
-    }
-
-    IEnumerator Anim() {
-        while (rectTransformLeft.sizeDelta.x < 4) {
-            rectTransformLeft.sizeDelta = new Vector2(rectTransformLeft.sizeDelta.x + speed, rectTransformLeft.sizeDelta.y);
-            rectTransformRight.sizeDelta = new Vector2(rectTransformRight.sizeDelta.x + speed, rectTransformRight.sizeDelta.y);
-
-            rectTransformUp.sizeDelta = new Vector2(rectTransformUp.sizeDelta.x, rectTransformUp.sizeDelta.y + speed);
-            rectTransformDown.sizeDelta = new Vector2(rectTransformDown.sizeDelta.x, rectTransformDown.sizeDelta.y + speed);
-            yield return null;
-        }
-        yield return new WaitForSeconds(1);
-        Destroy(this.gameObject);
+		explosionDirectionLeft.Boom (DIRECTION_LEFT);
+		explosionDirectionRight.Boom (DIRECTION_RIGHT);
+		explosionDirectionUp.Boom (DIRECTION_UP);
+		explosionDirectionDown.Boom (DIRECTION_DOWN);
     }
 }

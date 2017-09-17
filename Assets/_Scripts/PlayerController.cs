@@ -14,14 +14,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter)) {
+		if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
             GameObject shell = GameObject.Instantiate(p_shell);
 
             int x = (int)((transform.position.x + 1.28f) / 2.56f);
             int y = (int)((transform.position.y + 1.28f) / 2.56f);
-            Debug.Log(TAG + "x:"+ x + " y:"+y);
             Vector2 position = new Vector2(x * 2.56f, y * 2.56f);
             shell.transform.position = position;
+			StartCoroutine (Boom(shell.GetComponent<Shell> ()));
         }
     }
 
@@ -32,4 +32,9 @@ public class PlayerController : MonoBehaviour {
         Vector2 movement = new Vector2(moveHorizontal, moveVertical);
         rb2D.velocity = movement * speed;
     }
+
+	IEnumerator Boom(Shell shell){
+		yield return new WaitForSeconds (2);
+		shell.Boom ();
+	}
 }
