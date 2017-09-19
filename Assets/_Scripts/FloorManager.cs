@@ -12,9 +12,10 @@ public class FloorManager : MonoBehaviour {
     public static Vector2 size = new Vector2(2.56f, 2.56f);
 
 	// 这个row和col搞反了
-    public static int row = 25;
-    public static int col = 15;
+    public const int row = 25;
+	public const int col = 15;
 
+	public static Dictionary<string , GameObject> sBoxsDictionary = new Dictionary<string, GameObject> ();
     //int row = 5;
     //int col = 5;
 
@@ -74,14 +75,14 @@ public class FloorManager : MonoBehaviour {
 		for (int i = 0; i < row; i = i + 1) {
 			for (int j = 0; j < col; j = j + 1) {
 				if(i%2!=1 || j%2!=1){
-					if(Random.value > 0.4f || IsPlayerPosition(i,j)){
+					if(Random.value > 0.0f || IsPlayerPosition(i,j)){
 						continue;
 					}
 					Vector3 position = new Vector3(i * size.x, j * size.y);
 					GameObject g = GameObject.Instantiate(Box, this.transform);
 					g.transform.position = position;
+					sBoxsDictionary.Add (i +"-" +j ,  g);			
 				}
-
 			}
 		}
     }
