@@ -10,6 +10,8 @@ public class ExplosionDirection : MonoBehaviour {
 
 	float speed = 0.3f;
 
+	float power = 1.2f + 2.56f * 1;
+
 	int mDirection;
 	bool mIsTrigger;
 
@@ -17,6 +19,10 @@ public class ExplosionDirection : MonoBehaviour {
 		//Debug.Log (TAG + "OnTriggerEnter2D other:"+ other.tag);
 		if(other.CompareTag("Wall")){
 			mIsTrigger = true;
+		}else if(other.CompareTag("Box")){
+			Destroy (other.gameObject);
+		}else if(other.CompareTag("Player")){
+			Destroy (other.gameObject);
 		}
 	}
 
@@ -28,28 +34,21 @@ public class ExplosionDirection : MonoBehaviour {
 		StartCoroutine("Anim");
 	}
 
+
 	IEnumerator Anim() {
-		while (rectTransform.sizeDelta.x < 1.28f*3 && rectTransform.sizeDelta.y < 1.28f*3) {
+		while (rectTransform.sizeDelta.x < power && rectTransform.sizeDelta.y < power) {
 			if (!mIsTrigger) {
 				if (mDirection == Explosion.DIRECTION_LEFT) {
-					rectTransform.sizeDelta = new Vector2 (rectTransform.sizeDelta.x + speed, rectTransform.sizeDelta.y);
-
-					boxCollider2D.size = new Vector2 (rectTransform.sizeDelta.x, 2f);
+					LeftAndRightPower ();
 					boxCollider2D.offset = new Vector2 (-0.5f * rectTransform.sizeDelta.x, 0);
 				} else if (mDirection == Explosion.DIRECTION_RIGHT) {
-					rectTransform.sizeDelta = new Vector2 (rectTransform.sizeDelta.x + speed, rectTransform.sizeDelta.y);
-
-					boxCollider2D.size = new Vector2 (rectTransform.sizeDelta.x, 2f);
+					LeftAndRightPower ();
 					boxCollider2D.offset = new Vector2 (0.5f * rectTransform.sizeDelta.x, 0);
 				} else if (mDirection == Explosion.DIRECTION_UP) {
-					rectTransform.sizeDelta = new Vector2 (2f, rectTransform.sizeDelta.y + speed);
-
-					boxCollider2D.size = new Vector2 (2f, rectTransform.sizeDelta.y);
+					upAndDownPower ();
 					boxCollider2D.offset = new Vector2 (0, 0.5f * rectTransform.sizeDelta.y);
 				} else if (mDirection == Explosion.DIRECTION_DOWN) {
-					rectTransform.sizeDelta = new Vector2 (2f, rectTransform.sizeDelta.y + speed);
-
-					boxCollider2D.size = new Vector2 (2f, rectTransform.sizeDelta.y);
+					upAndDownPower ();
 					boxCollider2D.offset = new Vector2 (0, -0.5f * rectTransform.sizeDelta.y);
 				}
 			}
@@ -61,5 +60,23 @@ public class ExplosionDirection : MonoBehaviour {
 		if(parent!=null){
 			Destroy (parent);
 		}
+	}
+
+	private void LeftAndRightPower(){
+		float leftPower = rectTransform.sizeDelta.x + speed;
+		if(leftPower > power){
+			leftPower = power;
+		}
+		rectTransform.sizeDelta = new Vector2 (leftPower , 2);
+		boxCollider2D.size = rectTransform.sizeDelta;
+	}
+
+	private void upAndDownPower(){
+		float leftPower = rectTransform.sizeDelta.y + speed;
+		if(leftPower > power){
+			leftPower = power;
+		}
+		rectTransform.sizeDelta = new Vector2 (2 , leftPower);
+		boxCollider2D.size = rectTransform.sizeDelta;
 	}
 }
