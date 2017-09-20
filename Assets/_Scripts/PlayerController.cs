@@ -13,15 +13,22 @@ public class PlayerController : MonoBehaviour {
         rb2D = GetComponent<Rigidbody2D>();
     }
 
+    public void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Enemy")) {
+            Destroy(gameObject);
+        }
+    }
+
     void Update() {
-		if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
             GameObject shell = GameObject.Instantiate(p_shell);
 
             int x = (int)((transform.position.x + 1.28f) / 2.56f);
             int y = (int)((transform.position.y + 1.28f) / 2.56f);
             Vector2 position = new Vector2(x * 2.56f, y * 2.56f);
             shell.transform.position = position;
-			StartCoroutine (Boom(shell.GetComponent<Shell> ()));
+            GenerateManager.sShellDictionary[x + "-" + y] = shell;
+            StartCoroutine(Boom(shell.GetComponent<Shell>()));
         }
     }
 
@@ -33,8 +40,8 @@ public class PlayerController : MonoBehaviour {
         rb2D.velocity = movement * speed;
     }
 
-	IEnumerator Boom(Shell shell){
-		yield return new WaitForSeconds (2);
-		shell.Boom ();
-	}
+    IEnumerator Boom(Shell shell) {
+        yield return new WaitForSeconds(2);
+        shell.Boom();
+    }
 }

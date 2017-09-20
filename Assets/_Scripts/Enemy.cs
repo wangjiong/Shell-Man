@@ -6,37 +6,63 @@ public class Enemy : MonoBehaviour {
 	string TAG = "Enemy==";
 
 	int moveDicection = 0;
+    int originMoveDicection;
 
-	const int LEFT = 1;
+    const int LEFT = 1;
 	const int RIGHT = 2;
 	const int UP = 3;
 	const int DOWN = 4;
 
 	List<int> passTemp =new List<int>();
 
-	float speed = 3f;
+	float speed = 5f;
 
-	void Start () {
-		Invoke ("Test" , 2);
-	}
+    Vector2 originPosition;
+    Vector2 nextPosition;
 
-	bool test = true;
-	private void Test(){
-		test = false;
-	}
+    
+
+    void Start () {
+        CalculateAround();
+    }
 
 	void Update () {
-		if(test){
-			return;
-		};
-		Debug.Log (TAG + "Update");
-		int x = (int)((transform.position.x + 1.28f) / 2.56f);
-		int y = (int)((transform.position.y + 1.28f) / 2.56f);
-		Debug.Log (TAG + "Update x:" + x + " y:"+y);
-		if( Mathf.Abs(transform.position.x - x*2.56f) < 0.01f && Mathf.Abs(transform.position.y - y*2.56f) < 0.01f){
-			CalculateAround ();
-		}
+        // 判断是否移动到下一个位置了
+        if (moveDicection == LEFT) {
+            float distance = originPosition.x - transform.position.x;
+            if (distance >= 2.56f) {
+                // 已经移动到左边的一个位置
+                transform.position = new Vector2(originPosition.x - 2.56f, transform.position.y);
+                CalculateAround();
+            }
+        } else if (moveDicection == RIGHT) {
+            float distance = transform.position.x - originPosition.x;
+            Debug.Log(TAG + "RIGHT distance:"+ distance);
+            if (distance >= 2.56f) {
+                // 已经移动到右边的一个位置
+                transform.position = new Vector2(originPosition.x + 2.56f, transform.position.y);
+                CalculateAround();
+            }
+        } else if (moveDicection == UP) {
+            float distance = transform.position.y - originPosition.y;
+            Debug.Log(TAG + "UP distance:" + distance);
+            if (distance >= 2.56f) {
+                // 已经移动到上边的一个位置
+                transform.position = new Vector2(transform.position.x , originPosition.y + 2.56f);
+                CalculateAround();
+            }
+        } else if (moveDicection == DOWN) {
+            float distance = originPosition.y - transform.position.y;
+            if (distance >= 2.56f) {
+                // 已经移动到下边的一个位置
+                transform.position = new Vector2(transform.position.x , originPosition.y - 2.56f);
+                CalculateAround();
+            }
+        } else {
+            //CalculateAround();
+        }
 			
+        // 移动
 		switch(moveDicection){
 		case LEFT:
 			transform.Translate (Vector2.left * speed * Time.deltaTime);
@@ -58,8 +84,10 @@ public class Enemy : MonoBehaviour {
 	// 计算出下一步方向
 	private void CalculateAround(){
 		Debug.Log (TAG + "CalculateAround");
-		// origin
-		int x = (int)((transform.position.x + 1.28f) / 2.56f);
+        originPosition = transform.position;
+        originMoveDicection = moveDicection;
+        // origin
+        int x = (int)((transform.position.x + 1.28f) / 2.56f);
 		int y = (int)((transform.position.y + 1.28f) / 2.56f);
 		Debug.Log (TAG + "CalculateAround x:" + x + " y:"+y);
 		// left
@@ -86,8 +114,24 @@ public class Enemy : MonoBehaviour {
 			passTemp.Add (DOWN);
 		}
 		if(passTemp.Count > 0){
-			moveDicection = passTemp[Random.Range(0,passTemp.Count)];
-		}
+            int i = 0;
+            for (; i < passTemp.Count; i++) {
+                if (passTemp[i] == originMoveDicection) {
+                    break;
+                }
+            }
+            if (i >= passTemp.Count) {
+                // 1.可选的方向没有之前的方向，那么随机一个
+                moveDicection = passTemp[Random.Range(0, passTemp.Count)];
+            } else {
+                // 2.可选的方向有之前的方向，那么65%用之前的方向
+                if (Random.value < 0.65f) {
+                    moveDicection = originMoveDicection;
+                } else {
+                    moveDicection = passTemp[Random.Range(0, passTemp.Count)];
+                }
+            }
+        }
 		Debug.Log (TAG + " moveDicection:" + moveDicection);
 	}
 
@@ -104,12 +148,16 @@ public class Enemy : MonoBehaviour {
 			return false;
 		}
 		// 3.箱子
-		if(FloorManager.sBoxsDictionary.ContainsKey(x+"-" + y)){
+		if(GenerateManager.sBoxsDictionary.ContainsKey(x+"-" + y)){
 			Debug.Log (TAG + "3.箱子");
 			return false;
 		}
-		// 4.炸弹
-		Debug.Log (TAG + "4.OK");
+        // 4.炸弹
+        if (GenerateManager.sShellDictionary.ContainsKey(x + "-" + y)) {
+            Debug.Log(TAG + "4.炸弹");
+            return false;
+        }
+        Debug.Log (TAG + "5.OK");
 		return true;
 	}
 }

@@ -7,7 +7,6 @@ public class FloorManager : MonoBehaviour {
     public GameObject Wall01;
     public GameObject Wall02;
 	public GameObject Floor;
-    public GameObject Box;
 
     public static Vector2 size = new Vector2(2.56f, 2.56f);
 
@@ -15,7 +14,7 @@ public class FloorManager : MonoBehaviour {
     public const int row = 25;
 	public const int col = 15;
 
-	public static Dictionary<string , GameObject> sBoxsDictionary = new Dictionary<string, GameObject> ();
+	
     //int row = 5;
     //int col = 5;
 
@@ -69,34 +68,4 @@ public class FloorManager : MonoBehaviour {
             }
         }
     }
-		
-	// 中间箱子
-	public void GenerateBox() {
-		for (int i = 0; i < row; i = i + 1) {
-			for (int j = 0; j < col; j = j + 1) {
-				if(i%2!=1 || j%2!=1){
-					if(Random.value > 0.0f || IsPlayerPosition(i,j)){
-						continue;
-					}
-					Vector3 position = new Vector3(i * size.x, j * size.y);
-					GameObject g = GameObject.Instantiate(Box, this.transform);
-					g.transform.position = position;
-					sBoxsDictionary.Add (i +"-" +j ,  g);			
-				}
-			}
-		}
-    }
-
-	private bool IsPlayerPosition(int j,int i){
-		if(i==col -2 && j == 0){
-			return true;
-		}
-		if(i==col-1 && j ==0){
-			return true;
-		}
-		if(i==col-1 && j ==1){
-			return true;
-		}
-		return false;
-	}
 }

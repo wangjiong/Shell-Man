@@ -15,5 +15,12 @@ public class Shell : MonoBehaviour {
         GameObject g = Instantiate(explosion, canvas.GetComponent<RectTransform>());
         RectTransform rectTransform = g.GetComponent<RectTransform>();
         rectTransform.localPosition = transform.position;
+
+        int x = (int)((transform.position.x + 1.28f) / 2.56f);
+        int y = (int)((transform.position.y + 1.28f) / 2.56f);
+        string key = x + "-" + y;
+        if (GenerateManager.sShellDictionary.ContainsKey(key)) {
+            GenerateManager.sShellDictionary.Remove(key);
+        }
     }
 }
