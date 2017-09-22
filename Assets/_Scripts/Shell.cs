@@ -10,6 +10,12 @@ public class Shell : MonoBehaviour {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
     }
 
+	public void OnTriggerExit2D(Collider2D other) {
+		if(other.CompareTag("Player")){
+			GetComponent<BoxCollider2D> ().isTrigger = false;
+		}
+	}
+
     public void Boom() {
         Destroy(this.gameObject);
         GameObject g = Instantiate(explosion, canvas.GetComponent<RectTransform>());

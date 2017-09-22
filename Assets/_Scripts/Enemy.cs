@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour {
-	string TAG = "Enemy==";
+	string TAG1 = "Enemy==";
 
 	int moveDicection = 0;
     int originMoveDicection;
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour {
             }
         } else if (moveDicection == RIGHT) {
             float distance = transform.position.x - originPosition.x;
-            Debug.Log(TAG + "RIGHT distance:"+ distance);
+            //Debug.Log(TAG + "RIGHT distance:"+ distance);
             if (distance >= 2.56f) {
                 // 已经移动到右边的一个位置
                 transform.position = new Vector2(originPosition.x + 2.56f, transform.position.y);
@@ -45,7 +45,7 @@ public class Enemy : MonoBehaviour {
             }
         } else if (moveDicection == UP) {
             float distance = transform.position.y - originPosition.y;
-            Debug.Log(TAG + "UP distance:" + distance);
+            //Debug.Log(TAG + "UP distance:" + distance);
             if (distance >= 2.56f) {
                 // 已经移动到上边的一个位置
                 transform.position = new Vector2(transform.position.x , originPosition.y + 2.56f);
@@ -83,13 +83,13 @@ public class Enemy : MonoBehaviour {
 
 	// 计算出下一步方向
 	private void CalculateAround(){
-		Debug.Log (TAG + "CalculateAround");
+		//Debug.Log (TAG + "CalculateAround");
         originPosition = transform.position;
         originMoveDicection = moveDicection;
         // origin
         int x = (int)((transform.position.x + 1.28f) / 2.56f);
 		int y = (int)((transform.position.y + 1.28f) / 2.56f);
-		Debug.Log (TAG + "CalculateAround x:" + x + " y:"+y);
+		//Debug.Log (TAG + "CalculateAround x:" + x + " y:"+y);
 		// left
 		bool leftPass = IsPass (x - 1 , y);
 		// right
@@ -132,32 +132,32 @@ public class Enemy : MonoBehaviour {
                 }
             }
         }
-		Debug.Log (TAG + " moveDicection:" + moveDicection);
+		//Debug.Log (TAG + " moveDicection:" + moveDicection);
 	}
 
 	private bool IsPass(int x , int y){
-		Debug.Log (TAG + "IsPass x:" + x + " y:"+ y);
+		//Debug.Log (TAG + "IsPass x:" + x + " y:"+ y);
 		// 1.超出地图
 		if(x < 0 || y < 0 || x > FloorManager.row -1 || y > FloorManager.col -1){
-			Debug.Log (TAG + "1.超出地图");
+			//Debug.Log (TAG + "1.超出地图");
 			return false;
 		}
 		// 2.墙壁
 		if(x%2 == 1 && y%2 ==1){
-			Debug.Log (TAG + "2.墙壁");
+			//Debug.Log (TAG + "2.墙壁");
 			return false;
 		}
 		// 3.箱子
 		if(GenerateManager.sBoxsDictionary.ContainsKey(x+"-" + y)){
-			Debug.Log (TAG + "3.箱子");
+			//Debug.Log (TAG + "3.箱子");
 			return false;
 		}
         // 4.炸弹
         if (GenerateManager.sShellDictionary.ContainsKey(x + "-" + y)) {
-            Debug.Log(TAG + "4.炸弹");
+            //Debug.Log(TAG + "4.炸弹");
             return false;
         }
-        Debug.Log (TAG + "5.OK");
+        //Debug.Log (TAG + "5.OK");
 		return true;
 	}
 }
