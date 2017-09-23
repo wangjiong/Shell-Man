@@ -20,7 +20,14 @@ public class Enemy : MonoBehaviour {
     Vector2 originPosition;
     Vector2 nextPosition;
 
-    
+	public void OnTriggerEnter2D(Collider2D other) {
+		if (other.CompareTag("Shell")) {
+			Debug.Log (TAG1 + "OnTriggerEnter2D");
+			transform.position = originPosition;
+			moveDicection = 0;
+			CalculateAround();
+		}
+	}
 
     void Start () {
         CalculateAround();

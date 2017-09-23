@@ -1,25 +1,14 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\_Scripts\PlayerController.cs">
     <Files>
-      <File FileName="Assets\_Scripts\FloorManager.cs" Line="21" Column="2" />
-      <File FileName="Assets\_Scripts\ExplosionDirection.cs" Line="40" Column="19" />
-      <File FileName="Assets\_Scripts\CameraController.cs" Line="16" Column="19" />
-      <File FileName="Assets\_Scripts\Enemy.cs" Line="24" Column="35" />
+      <File FileName="Assets\_Scripts\FloorManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\ExplosionDirection.cs" Line="18" Column="53" />
+      <File FileName="Assets\_Scripts\CameraController.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Enemy.cs" Line="1" Column="1" />
+      <File FileName="Assets\_Scripts\Shell.cs" Line="15" Column="53" />
+      <File FileName="Assets\_Scripts\PlayerController.cs" Line="31" Column="13" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="Shell-Man" expanded="True">
-            <Node name="Assembly-CSharp" expanded="True">
-              <Node name="_Scripts" expanded="True">
-                <Node name="Enemy.cs" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
