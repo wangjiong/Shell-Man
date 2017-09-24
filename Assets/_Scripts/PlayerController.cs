@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Enemy")) {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
@@ -44,4 +44,12 @@ public class PlayerController : MonoBehaviour {
         yield return new WaitForSeconds(2);
         shell.Boom();
     }
+
+	void OnDestroy(){
+		
+	}
+
+	void Restart(){
+		UnityEngine.SceneManagement.SceneManager.LoadScene (0);
+	}
 }

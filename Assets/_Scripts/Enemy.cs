@@ -21,10 +21,9 @@ public class Enemy : MonoBehaviour {
     Vector2 nextPosition;
 
 	public void OnTriggerEnter2D(Collider2D other) {
+		// 敌人碰到炸弹后，立即回到之前的位置，防止穿越炸弹
 		if (other.CompareTag("Shell")) {
-			Debug.Log (TAG1 + "OnTriggerEnter2D");
 			transform.position = originPosition;
-			moveDicection = 0;
 			CalculateAround();
 		}
 	}
@@ -65,8 +64,6 @@ public class Enemy : MonoBehaviour {
                 transform.position = new Vector2(transform.position.x , originPosition.y - 2.56f);
                 CalculateAround();
             }
-        } else {
-            //CalculateAround();
         }
 			
         // 移动
@@ -120,25 +117,30 @@ public class Enemy : MonoBehaviour {
 		if(downPass){
 			passTemp.Add (DOWN);
 		}
-		if(passTemp.Count > 0){
-            int i = 0;
-            for (; i < passTemp.Count; i++) {
-                if (passTemp[i] == originMoveDicection) {
-                    break;
-                }
-            }
-            if (i >= passTemp.Count) {
-                // 1.可选的方向没有之前的方向，那么随机一个
-                moveDicection = passTemp[Random.Range(0, passTemp.Count)];
-            } else {
-                // 2.可选的方向有之前的方向，那么65%用之前的方向
-                if (Random.value < 0.65f) {
-                    moveDicection = originMoveDicection;
-                } else {
-                    moveDicection = passTemp[Random.Range(0, passTemp.Count)];
-                }
-            }
-        }
+		if (passTemp.Count > 0) {
+			int i = 0;
+			for (; i < passTemp.Count; i++) {
+				if (passTemp [i] == originMoveDicection) {
+					break;
+				}
+			}
+			if (i >= passTemp.Count) {
+				// 1.可选的方向没有之前的方向，那么随机一个
+				moveDicection = passTemp [Random.Range (0, passTemp.Count)];
+			} else {
+				// 2.可选的方向有之前的方向，那么65%用之前的方向
+				if (Random.value < 0.65f) {
+					moveDicection = originMoveDicection;
+				} else {
+					moveDicection = passTemp [Random.Range (0, passTemp.Count)];
+				}
+			}
+		} else {
+			moveDicection = 0;
+			// 每隔5秒检测一下周围是否可以移动
+			CancelInvoke();
+			InvokeRepeating("CalculateAround" , 0 , 5);
+		}
 		//Debug.Log (TAG + " moveDicection:" + moveDicection);
 	}
 

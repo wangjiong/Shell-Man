@@ -27,6 +27,9 @@ public class CameraController : MonoBehaviour {
     }
 
     void LateUpdate() {
+		if(player == null){
+			return;
+		}
         position.x = Mathf.Clamp((player.transform.position + offset).x, pLeftDown.x, pRightUp.x);
         position.y = Mathf.Clamp((player.transform.position + offset).y, pLeftDown.y, pRightUp.y);
         transform.position = position;
