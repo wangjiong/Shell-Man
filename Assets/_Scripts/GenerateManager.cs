@@ -16,6 +16,10 @@ public class GenerateManager : MonoBehaviour {
 
 
     void Start () {
+        sBoxsDictionary.Clear();
+        sEnemyDictionary.Clear();
+        sShellDictionary.Clear();
+
         GenerateBoxAndEnemy();
     }
 

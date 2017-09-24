@@ -15,12 +15,15 @@ public class PlayerController : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Enemy")) {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
     void Update() {
         if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)) {
+            if (GenerateManager.sShellDictionary.Count > 0) {
+                return;
+            }
             GameObject shell = GameObject.Instantiate(p_shell);
 
             int x = (int)((transform.position.x + 1.28f) / 2.56f);
@@ -45,11 +48,8 @@ public class PlayerController : MonoBehaviour {
         shell.Boom();
     }
 
-	void OnDestroy(){
-		
-	}
+    void OnDestroy() {
+        GameManager.Instance.Restart(2);
+    }
 
-	void Restart(){
-		UnityEngine.SceneManagement.SceneManager.LoadScene (0);
-	}
 }
