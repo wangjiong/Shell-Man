@@ -6,6 +6,7 @@ public class GenerateManager : MonoBehaviour {
 
     public GameObject Box;
     public GameObject Enemy;
+    public GameObject Door;
 
     public static Dictionary<string, GameObject> sBoxsDictionary = new Dictionary<string, GameObject>();
 
@@ -13,9 +14,7 @@ public class GenerateManager : MonoBehaviour {
 
     public static Dictionary<string, GameObject> sShellDictionary = new Dictionary<string, GameObject>();
 
-
-
-    void Start () {
+    void Start() {
         sBoxsDictionary.Clear();
         sEnemyDictionary.Clear();
         sShellDictionary.Clear();
@@ -36,12 +35,16 @@ public class GenerateManager : MonoBehaviour {
                         }
                         continue;
                     }
-                    if (!IsPlayerPosition(i,j)) {
-                        GererateBox(i,j);
+                    if (!IsPlayerPosition(i, j)) {
+                        GererateBox(i, j);
                     }
                 }
             }
         }
+        // 生成门
+        List<GameObject> boxs = new List<GameObject>(sBoxsDictionary.Values);
+        GameObject g = GameObject.Instantiate(Door, this.transform);
+        g.transform.position = boxs[Random.Range(0, sBoxsDictionary.Count)].transform.position;
     }
 
     private bool IsPlayerPosition(int j, int i) {
@@ -57,14 +60,16 @@ public class GenerateManager : MonoBehaviour {
         return false;
     }
 
-    private void GenerateEnemy(int i , int j) {
+    // 生成敌人
+    private void GenerateEnemy(int i, int j) {
         Vector3 position = new Vector3(i * FloorManager.size.x, j * FloorManager.size.y);
         GameObject g = GameObject.Instantiate(Enemy, this.transform);
         g.transform.position = position;
         GenerateManager.sEnemyDictionary.Add(i + "-" + j, g);
     }
 
-    private void GererateBox(int i , int j) {
+    // 生成箱子
+    private void GererateBox(int i, int j) {
         Vector3 position = new Vector3(i * FloorManager.size.x, j * FloorManager.size.y);
         GameObject g = GameObject.Instantiate(Box, this.transform);
         g.transform.position = position;

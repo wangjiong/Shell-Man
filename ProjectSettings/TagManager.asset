@@ -8,6 +8,7 @@ TagManager:
   - Box
   - Enemy
   - Shell
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -50,6 +51,9 @@ TagManager:
     locked: 0
   - name: wall
     uniqueID: 3339595429
+    locked: 0
+  - name: door
+    uniqueID: 4099325773
     locked: 0
   - name: box
     uniqueID: 3798401241

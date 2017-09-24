@@ -58,6 +58,7 @@
      <Compile Include="Assets\_Scripts\FloorManager.cs" />
      <Compile Include="Assets\_Scripts\GameManager.cs" />
      <Compile Include="Assets\_Scripts\GenerateManager.cs" />
+     <Compile Include="Assets\_Scripts\Level.cs" />
      <Compile Include="Assets\_Scripts\PlayerController.cs" />
      <Compile Include="Assets\_Scripts\Shell.cs" />
  <Reference Include="UnityEngine.UI">

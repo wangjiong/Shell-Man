@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
+        if (other.CompareTag("Door")) {
+            Level.level++;
+            Time.timeScale = 0f;
+            GameManager.Instance.Restart(2);
+        }
         if (other.CompareTag("Enemy")) {
             Destroy(gameObject);
         }
