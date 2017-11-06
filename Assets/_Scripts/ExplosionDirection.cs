@@ -9,11 +9,11 @@ public class ExplosionDirection : MonoBehaviour {
     BoxCollider2D boxCollider2D;
 
     float speed = 0.3f;
-
-    float power = 1.2f + 2.56f * 1;
-
+    
     int mDirection;
     bool mIsTrigger;
+
+    float power;
 
     public void OnTriggerEnter2D(Collider2D other) {
         //Debug.Log (TAG + "OnTriggerEnter2D other:"+ other.tag);
@@ -42,8 +42,8 @@ public class ExplosionDirection : MonoBehaviour {
         StartCoroutine("Anim");
     }
 
-
     IEnumerator Anim() {
+        power = 1.2f + 2.56f * GameManager.BoomPower;
         while (rectTransform.sizeDelta.x < power && rectTransform.sizeDelta.y < power) {
             if (!mIsTrigger) {
                 if (mDirection == Explosion.DIRECTION_LEFT) {

@@ -7,6 +7,8 @@ public class GenerateManager : MonoBehaviour {
     public GameObject Box;
     public GameObject Enemy;
     public GameObject Door;
+    public GameObject BoomPower;
+    public GameObject BoomCount;
 
     public static Dictionary<string, GameObject> sBoxsDictionary = new Dictionary<string, GameObject>();
 
@@ -29,6 +31,7 @@ public class GenerateManager : MonoBehaviour {
                 if (i % 2 != 1 || j % 2 != 1) {
                     if (Random.value > 0.3f) {
                         if (!IsPlayerPosition(i, j)) {
+                            // 敌人
                             if (Random.value > 0.95f) {
                                 GenerateEnemy(i, j);
                             }
@@ -36,15 +39,41 @@ public class GenerateManager : MonoBehaviour {
                         continue;
                     }
                     if (!IsPlayerPosition(i, j)) {
+                        // 箱子
                         GererateBox(i, j);
                     }
                 }
             }
         }
+        // 生成特殊的箱子，保护初始位置
+        int m = 0;
+        int n = FloorManager.col - 3;
+        if (!sBoxsDictionary.ContainsKey(m +"-" + n))
+        {
+            GererateBox(m,n);
+        }
+        m = 2;
+        n = FloorManager.col - 1;
+        if (!sBoxsDictionary.ContainsKey(m + "-" + n))
+        {
+            GererateBox(m, n);
+        }
+
         // 生成门
         List<GameObject> boxs = new List<GameObject>(sBoxsDictionary.Values);
         GameObject g = GameObject.Instantiate(Door, this.transform);
-        g.transform.position = boxs[Random.Range(0, sBoxsDictionary.Count)].transform.position;
+        int index = Random.Range(0, sBoxsDictionary.Count);
+        g.transform.position = boxs[index].transform.position;
+        // 生成威力
+        boxs.RemoveAt(index);
+        g = GameObject.Instantiate(BoomPower, this.transform);
+        index = Random.Range(0, sBoxsDictionary.Count);
+        g.transform.position = boxs[index].transform.position;
+        // 生成个数
+        boxs.RemoveAt(index);
+        g = GameObject.Instantiate(BoomCount, this.transform);
+        index = Random.Range(0, sBoxsDictionary.Count);
+        g.transform.position = boxs[index].transform.position;
     }
 
     private bool IsPlayerPosition(int j, int i) {
@@ -55,6 +84,15 @@ public class GenerateManager : MonoBehaviour {
             return true;
         }
         if (i == FloorManager.col - 1 && j == 1) {
+            return true;
+        }
+
+        if (i == FloorManager.col - 1 && j == 2)
+        {
+            return true;
+        }
+        if (i == FloorManager.col - 3 && j == 0)
+        {
             return true;
         }
         return false;

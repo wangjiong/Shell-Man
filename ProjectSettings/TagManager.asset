@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Shell
   - Door
+  - BoomPower
+  - BoomCount
   layers:
   - Default
   - TransparentFX

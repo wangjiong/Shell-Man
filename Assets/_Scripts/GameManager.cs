@@ -7,6 +7,10 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
     public static GameManager Instance;
 
+    public static int BoomPower = 1;
+
+    public static int BoomCount = 1;
+
     void Awake() {
         Time.timeScale = 1f;
         if (Instance == null) {

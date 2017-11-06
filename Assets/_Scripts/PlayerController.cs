@@ -20,13 +20,24 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Door")) {
+        if (other.CompareTag("Enemy")){
+            Destroy(gameObject);
+        } else if(other.CompareTag("Door")) {
             Level.level++;
             Time.timeScale = 0f;
             GameManager.Instance.Restart(2);
-        }
-        if (other.CompareTag("Enemy")) {
-            Destroy(gameObject);
+        } else if (other.CompareTag("BoomPower")){
+            Debug.Log(TAG + "GameManager.BoomPower:"+ GameManager.BoomPower);
+            Destroy(other.gameObject);
+            if (GameManager.BoomPower<=4){
+                GameManager.BoomPower++;
+            }
+        } else if (other.CompareTag("BoomCount")){
+            Debug.Log(TAG + "GameManager.BoomCount:" + GameManager.BoomCount);
+            Destroy(other.gameObject);
+            if (GameManager.BoomCount <= 5){
+                GameManager.BoomCount++;
+            }
         }
     }
 
@@ -37,7 +48,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Boom(){
-        if (GenerateManager.sShellDictionary.Count > 0){
+        if (GenerateManager.sShellDictionary.Count >= GameManager.BoomCount){
             return;
         }
         GameObject shell = GameObject.Instantiate(p_shell);
@@ -59,7 +70,7 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate() {
         float moveHorizontal = 0; 
         float moveVertical = 0;
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         switch (buttonType)
         {
             case 1:
