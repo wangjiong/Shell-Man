@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start() {
-        GameManager.FindObjectOfType<Text>().text = "Level:" + Level.level;
+        GameObject.Find("LevelText").GetComponent<Text>().text = "Level:" + Level.level;
     }
 
     float mTime;
