@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour {
         Vector2 position = new Vector2(x * 2.56f, y * 2.56f);
         shell.transform.position = position;
         GenerateManager.sShellDictionary[x + "-" + y] = shell;
-        StartCoroutine(Boom(shell.GetComponent<Shell>()));
+        shell.GetComponent<Shell>().Boom();
     }
 
     int buttonType = 0;
@@ -98,10 +98,7 @@ public class PlayerController : MonoBehaviour {
         rb2D.velocity = movement * speed;
     }
 
-    IEnumerator Boom(Shell shell) {
-        yield return new WaitForSeconds(2);
-        shell.Boom();
-    }
+    
 
     void OnDestroy() {
         GameManager.Instance.Restart(2);

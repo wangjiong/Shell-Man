@@ -17,7 +17,18 @@ public class Shell : MonoBehaviour {
 	}
 
     public void Boom() {
-        Destroy(this.gameObject);
+        StartCoroutine("IEBoom");
+    }
+
+    IEnumerator IEBoom() {
+        yield return new WaitForSeconds(2);
+        BoomImmediately();
+    }
+
+    public void BoomImmediately(bool stopCoroutine = false) {
+        if (stopCoroutine) {
+            StopCoroutine("IEBoom");
+        }
         GameObject g = Instantiate(explosion, canvas.GetComponent<RectTransform>());
         RectTransform rectTransform = g.GetComponent<RectTransform>();
         rectTransform.localPosition = transform.position;
@@ -28,5 +39,6 @@ public class Shell : MonoBehaviour {
         if (GenerateManager.sShellDictionary.ContainsKey(key)) {
             GenerateManager.sShellDictionary.Remove(key);
         }
+        Destroy(this.gameObject);
     }
 }
