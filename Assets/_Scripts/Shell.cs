@@ -10,11 +10,11 @@ public class Shell : MonoBehaviour {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
     }
 
-	public void OnTriggerExit2D(Collider2D other) {
-		if(other.CompareTag("Player")){
-			GetComponent<BoxCollider2D> ().isTrigger = false;
-		}
-	}
+    public void OnTriggerExit2D(Collider2D other) {
+        if (other.CompareTag("Player")) {
+            GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+    }
 
     public void Boom() {
         StartCoroutine("IEBoom");
@@ -38,6 +38,9 @@ public class Shell : MonoBehaviour {
         string key = x + "-" + y;
         if (GenerateManager.sShellDictionary.ContainsKey(key)) {
             GenerateManager.sShellDictionary.Remove(key);
+        }
+        if (GenerateManager.sShellTimeList.Contains(this)) {
+            GenerateManager.sShellTimeList.Remove(this);
         }
         Destroy(this.gameObject);
     }

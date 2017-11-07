@@ -6367,6 +6367,7 @@ MonoBehaviour:
   Door: {fileID: 1031073847456668, guid: 187daeb5b8f520d48b76b1da14983fbc, type: 2}
   BoomPower: {fileID: 1274087405984200, guid: a9607a6fabc73a74181b0c2e5ceab1c9, type: 2}
   BoomCount: {fileID: 1489011039937046, guid: 12dd6485c81abac4bace93a61b7ecfb4, type: 2}
+  BoomTime: {fileID: 1244391276530814, guid: ca4348468e71d9e46ad54cdfd781b9c5, type: 2}
 --- !u!114 &265367719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34995,6 +34996,7 @@ GameObject:
   - component: {fileID: 1591832245}
   - component: {fileID: 1591832244}
   - component: {fileID: 1591832243}
+  - component: {fileID: 1591832246}
   m_Layer: 5
   m_Name: B
   m_TagString: Untagged
@@ -35095,6 +35097,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1591832241}
+--- !u!114 &1591832246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1591832241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733d65db140088146b742c36c7475fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1593486503
 GameObject:
   m_ObjectHideFlags: 0

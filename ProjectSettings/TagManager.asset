@@ -11,6 +11,7 @@ TagManager:
   - Door
   - BoomPower
   - BoomCount
+  - BoomTime
   layers:
   - Default
   - TransparentFX

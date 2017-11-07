@@ -60,6 +60,7 @@
      <Compile Include="Assets\_Scripts\GenerateManager.cs" />
      <Compile Include="Assets\_Scripts\InputButton.cs" />
      <Compile Include="Assets\_Scripts\InputFireButton.cs" />
+     <Compile Include="Assets\_Scripts\InputTimeButton.cs" />
      <Compile Include="Assets\_Scripts\Level.cs" />
      <Compile Include="Assets\_Scripts\PlayerController.cs" />
      <Compile Include="Assets\_Scripts\ScrollCircle.cs" />

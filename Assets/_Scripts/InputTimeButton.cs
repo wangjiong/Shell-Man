@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InputFireButton : MonoBehaviour, IPointerClickHandler/*IPointerEnterHandler, IPointerExitHandler*/
+public class InputTimeButton : MonoBehaviour, IPointerClickHandler/*IPointerEnterHandler, IPointerExitHandler*/
 {
-    static string TAG = "InputFireButton==";
+    static string TAG = "InputTimeButton==";
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (PlayerController.instance != null)
         {
-            PlayerController.instance.Boom();
+            PlayerController.instance.BoomByTime();
         }
     }
 }
