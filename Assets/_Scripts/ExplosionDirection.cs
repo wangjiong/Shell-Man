@@ -11,15 +11,17 @@ public class ExplosionDirection : MonoBehaviour {
     float speed = 0.3f;
     
     int mDirection;
-    bool mIsTrigger;
+    bool mIsTriggerWall;
+    bool mIsTriggerBox;
 
     float power;
 
     public void OnTriggerEnter2D(Collider2D other) {
         //Debug.Log (TAG + "OnTriggerEnter2D other:"+ other.tag);
         if (other.CompareTag("Wall")) {
-            mIsTrigger = true;
+            mIsTriggerWall = true;
         } else if (other.CompareTag("Box")) {
+            mIsTriggerBox = true; 
             int x = (int)((other.transform.position.x + 1.28f) / 2.56f);
             int y = (int)((other.transform.position.y + 1.28f) / 2.56f);
             string key = x + "-" + y;
@@ -45,7 +47,7 @@ public class ExplosionDirection : MonoBehaviour {
     IEnumerator Anim() {
         power = 1.2f + 2.56f * GameManager.BoomPower;
         while (rectTransform.sizeDelta.x < power && rectTransform.sizeDelta.y < power) {
-            if (!mIsTrigger) {
+            if (!mIsTriggerWall) {
                 if (mDirection == Explosion.DIRECTION_LEFT) {
                     LeftAndRightPower();
                     boxCollider2D.offset = new Vector2(-0.5f * rectTransform.sizeDelta.x, 0);
