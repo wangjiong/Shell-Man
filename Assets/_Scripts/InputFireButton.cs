@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class InputFireButton : MonoBehaviour, IPointerClickHandler/*IPointerEnterHandler, IPointerExitHandler*/
 {
-    static string TAG = "InputButton==";
+    static string TAG = "InputFireButton==";
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -13,19 +13,5 @@ public class InputFireButton : MonoBehaviour, IPointerClickHandler/*IPointerEnte
         {
             PlayerController.instance.Boom();
         }
-
-        //public void OnPointerEnter(PointerEventData eventData){
-        //    Debug.Log(TAG + "OnPointerEnter type:" + type);
-        //    if(PlayerController.instance!=null){
-        //        PlayerController.instance.ControlByButton(type);
-        //    }
-        //}
-
-        //public void OnPointerExit(PointerEventData eventData){
-        //    Debug.Log(TAG + "OnPointerExit type:" + type);
-        //    if (PlayerController.instance != null){
-        //        PlayerController.instance.ControlByButton(0);
-        //    }
-        //}
     }
 }

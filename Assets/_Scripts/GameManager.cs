@@ -11,6 +11,14 @@ public class GameManager : MonoBehaviour {
 
     public static int BoomCount = 1;
 
+    public static bool BoomTime = false;
+
+    //public static int BoomPower = 2;
+
+    //public static int BoomCount = 2;
+
+    //public static bool BoomTime = true;
+
     void Awake() {
         Time.timeScale = 1f;
         if (Instance == null) {

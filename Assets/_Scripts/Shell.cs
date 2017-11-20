@@ -10,14 +10,25 @@ public class Shell : MonoBehaviour {
         canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
     }
 
-	public void OnTriggerExit2D(Collider2D other) {
-		if(other.CompareTag("Player")){
-			GetComponent<BoxCollider2D> ().isTrigger = false;
-		}
-	}
+    public void OnTriggerExit2D(Collider2D other) {
+        if (other.CompareTag("Player")) {
+            GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+    }
 
     public void Boom() {
-        Destroy(this.gameObject);
+        StartCoroutine("IEBoom");
+    }
+
+    IEnumerator IEBoom() {
+        yield return new WaitForSeconds(2);
+        BoomImmediately();
+    }
+
+    public void BoomImmediately(bool stopCoroutine = false) {
+        if (stopCoroutine) {
+            StopCoroutine("IEBoom");
+        }
         GameObject g = Instantiate(explosion, canvas.GetComponent<RectTransform>());
         RectTransform rectTransform = g.GetComponent<RectTransform>();
         rectTransform.localPosition = transform.position;
@@ -28,5 +39,9 @@ public class Shell : MonoBehaviour {
         if (GenerateManager.sShellDictionary.ContainsKey(key)) {
             GenerateManager.sShellDictionary.Remove(key);
         }
+        if (GenerateManager.sShellTimeList.Contains(this)) {
+            GenerateManager.sShellTimeList.Remove(this);
+        }
+        Destroy(this.gameObject);
     }
 }

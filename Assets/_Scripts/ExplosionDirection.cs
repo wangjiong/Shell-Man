@@ -9,11 +9,10 @@ public class ExplosionDirection : MonoBehaviour {
     BoxCollider2D boxCollider2D;
 
     float speed = 0.3f;
-    
+
     int mDirection;
     bool mIsTriggerWall;
     bool mIsTriggerBox;
-
     float power;
 
     public void OnTriggerEnter2D(Collider2D other) {
@@ -22,6 +21,8 @@ public class ExplosionDirection : MonoBehaviour {
             mIsTriggerWall = true;
         } else if (other.CompareTag("Box")) {
             mIsTriggerBox = true; 
+            ReCaluatePower();
+            Debug.Log(TAG + "OnTriggerEnter2D other:" + other.tag);
             int x = (int)((other.transform.position.x + 1.28f) / 2.56f);
             int y = (int)((other.transform.position.y + 1.28f) / 2.56f);
             string key = x + "-" + y;
@@ -33,6 +34,22 @@ public class ExplosionDirection : MonoBehaviour {
             Destroy(other.gameObject);
         } else if (other.CompareTag("Enemy")) {
             Destroy(other.gameObject);
+        } else if (other.CompareTag("Shell")) {
+            other.gameObject.GetComponent<Shell>().BoomImmediately(true);
+            StopCoroutine("Anim");
+        }
+    }
+
+    // 每次只能炸一个箱子
+    private void ReCaluatePower() {
+        float count = 1;
+        if (mDirection == Explosion.DIRECTION_LEFT || mDirection == Explosion.DIRECTION_RIGHT) {
+            count = (rectTransform.sizeDelta.x - 1.28f) / 2.56f + 1;
+        } else {
+            count = (rectTransform.sizeDelta.y - 1.28f) / 2.56f + 1;
+        }
+        if (count < GameManager.BoomPower) {
+            power = 1.2f + 2.56f * (int)count;
         }
     }
 
@@ -52,6 +69,7 @@ public class ExplosionDirection : MonoBehaviour {
                     LeftAndRightPower();
                     boxCollider2D.offset = new Vector2(-0.5f * rectTransform.sizeDelta.x, 0);
                 } else if (mDirection == Explosion.DIRECTION_RIGHT) {
+                    Debug.Log(TAG + "rectTransform.sizeDelta.x:" + rectTransform.sizeDelta.x);
                     LeftAndRightPower();
                     boxCollider2D.offset = new Vector2(0.5f * rectTransform.sizeDelta.x, 0);
                 } else if (mDirection == Explosion.DIRECTION_UP) {

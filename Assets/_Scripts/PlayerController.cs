@@ -20,24 +20,25 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (other.CompareTag("Enemy")){
+        if (other.CompareTag("Enemy")) {
             Destroy(gameObject);
-        } else if(other.CompareTag("Door")) {
+        } else if (other.CompareTag("Door")) {
             Level.level++;
             Time.timeScale = 0f;
             GameManager.Instance.Restart(2);
-        } else if (other.CompareTag("BoomPower")){
-            Debug.Log(TAG + "GameManager.BoomPower:"+ GameManager.BoomPower);
+        } else if (other.CompareTag("BoomPower")) {
             Destroy(other.gameObject);
-            if (GameManager.BoomPower<=4){
+            if (GameManager.BoomPower <= 4) {
                 GameManager.BoomPower++;
             }
-        } else if (other.CompareTag("BoomCount")){
-            Debug.Log(TAG + "GameManager.BoomCount:" + GameManager.BoomCount);
+        } else if (other.CompareTag("BoomCount")) {
             Destroy(other.gameObject);
-            if (GameManager.BoomCount <= 5){
+            if (GameManager.BoomCount <= 5) {
                 GameManager.BoomCount++;
             }
+        } else if (other.CompareTag("BoomTime")) {
+            Destroy(other.gameObject);
+            GameManager.BoomTime = true;
         }
     }
 
@@ -47,8 +48,8 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public void Boom(){
-        if (GenerateManager.sShellDictionary.Count >= GameManager.BoomCount){
+    public void Boom() {
+        if (GenerateManager.sShellDictionary.Count >= GameManager.BoomCount) {
             return;
         }
         GameObject shell = GameObject.Instantiate(p_shell);
@@ -58,7 +59,21 @@ public class PlayerController : MonoBehaviour {
         Vector2 position = new Vector2(x * 2.56f, y * 2.56f);
         shell.transform.position = position;
         GenerateManager.sShellDictionary[x + "-" + y] = shell;
-        StartCoroutine(Boom(shell.GetComponent<Shell>()));
+        if (!GameManager.BoomTime) {
+            // 没有定时器
+            shell.GetComponent<Shell>().Boom();
+        } else {
+            // 定时器
+            GenerateManager.sShellTimeList.Add(shell.GetComponent<Shell>());
+        }
+    }
+
+    public void BoomByTime() {
+        if (GenerateManager.sShellTimeList.Count > 0) {
+            Shell shell = GenerateManager.sShellTimeList[0];
+            shell.BoomImmediately();
+            GenerateManager.sShellTimeList.Remove(shell);
+        }
     }
 
     int buttonType = 0;
@@ -68,7 +83,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        float moveHorizontal = 0; 
+        float moveHorizontal = 0;
         float moveVertical = 0;
 #if UNITY_ANDROID && !UNITY_EDITOR
         switch (buttonType)
@@ -98,10 +113,7 @@ public class PlayerController : MonoBehaviour {
         rb2D.velocity = movement * speed;
     }
 
-    IEnumerator Boom(Shell shell) {
-        yield return new WaitForSeconds(2);
-        shell.Boom();
-    }
+
 
     void OnDestroy() {
         GameManager.Instance.Restart(2);

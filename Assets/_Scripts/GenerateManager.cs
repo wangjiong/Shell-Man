@@ -9,6 +9,7 @@ public class GenerateManager : MonoBehaviour {
     public GameObject Door;
     public GameObject BoomPower;
     public GameObject BoomCount;
+    public GameObject BoomTime;
 
     public static Dictionary<string, GameObject> sBoxsDictionary = new Dictionary<string, GameObject>();
 
@@ -16,10 +17,13 @@ public class GenerateManager : MonoBehaviour {
 
     public static Dictionary<string, GameObject> sShellDictionary = new Dictionary<string, GameObject>();
 
+    public static List<Shell> sShellTimeList = new List<Shell>();
+
     void Start() {
         sBoxsDictionary.Clear();
         sEnemyDictionary.Clear();
         sShellDictionary.Clear();
+        sShellTimeList.Clear();
 
         GenerateBoxAndEnemy();
     }
@@ -68,10 +72,15 @@ public class GenerateManager : MonoBehaviour {
         boxs.RemoveAt(index);
         g = GameObject.Instantiate(BoomPower, this.transform);
         index = Random.Range(0, sBoxsDictionary.Count);
-        g.transform.position = boxs[index].transform.position;
+        g.transform.position = boxs[index].transform.position; 
         // 生成个数
         boxs.RemoveAt(index);
         g = GameObject.Instantiate(BoomCount, this.transform);
+        index = Random.Range(0, sBoxsDictionary.Count);
+        g.transform.position = boxs[index].transform.position;
+        // 生成定时器
+        boxs.RemoveAt(index);
+        g = GameObject.Instantiate(BoomTime, this.transform);
         index = Random.Range(0, sBoxsDictionary.Count);
         g.transform.position = boxs[index].transform.position;
     }
